@@ -1,0 +1,8 @@
+services:
+  DeliberryAPI\Product\Product\Application\Command\CreateProductCommandHandler:
+    class: DeliberryAPI\Product\Product\Application\Command\CreateProductCommandHandler
+    public: true
+    arguments:
+      - '@DeliberryAPI\Product\Product\Domain\Service\ProductCreatorService'
+    tags:
+      - { name: tactician.handler, command: DeliberryAPI\Product\Product\Application\Command\CreateProductCommand, typehints: true, bus: command }

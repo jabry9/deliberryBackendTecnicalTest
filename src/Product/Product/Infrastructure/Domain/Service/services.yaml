@@ -1,0 +1,4 @@
+services:
+  DeliberryAPI\Product\Product\Domain\Service\ProductCreatorService:
+    class: DeliberryAPI\Product\Product\Domain\Service\ProductCreatorService
+    autowire: true

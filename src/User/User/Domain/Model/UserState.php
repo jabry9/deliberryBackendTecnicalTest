@@ -8,6 +8,9 @@ use DeliberryAPI\Core\User\Domain\Model\UserLoggedInterface;
 class UserState implements UserLoggedInterface
 {
 
+    public const ROLE_ADMIN = 'admin';
+    public const ROLE_USER = 'user';
+
     public function __construct(private string $userId, private string $username, private array $roles)
     {
     }

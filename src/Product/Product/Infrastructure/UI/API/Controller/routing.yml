@@ -1,0 +1,4 @@
+Create_Product:
+    path: /v1/product
+    defaults: { _controller: DeliberryAPI\Product\Product\Infrastructure\UI\API\Controller\ProductController::createProduct }
+    methods: [POST]

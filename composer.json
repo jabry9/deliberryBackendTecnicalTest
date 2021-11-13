@@ -23,6 +23,14 @@
         "symfony/yaml": "5.3.*",
         "namshi/jose": "^7.2"
     },
+    "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^3.4",
+        "phpunit/phpunit": "*",
+        "symfony/maker-bundle": "*",
+        "symfony/phpunit-bridge": "*",
+        "symfony/stopwatch": "5.3.*",
+        "symfony/web-profiler-bundle": "5.3.*"
+    },
     "config": {
         "optimize-autoloader": true,
         "preferred-install": {

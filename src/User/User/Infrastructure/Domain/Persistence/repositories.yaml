@@ -3,3 +3,8 @@ services:
     class: DeliberryAPI\User\User\Infrastructure\Domain\Persistence\Doctrine\DoctrineUserRepository
     arguments:
       - '@doctrine.orm.default_entity_manager'
+
+  DeliberryAPI\User\User\Infrastructure\Domain\Persistence\Doctrine\Fixtures\UserFixtures:
+    class: DeliberryAPI\User\User\Infrastructure\Domain\Persistence\Doctrine\Fixtures\UserFixtures
+    tags:
+      - { name: 'doctrine.fixture.orm' }

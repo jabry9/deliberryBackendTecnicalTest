@@ -1,0 +1,10 @@
+services:
+  DeliberryAPI\Core\CommandBus\Application\Service\CommandBus:
+    class: DeliberryAPI\Core\CommandBus\Infrastructure\Application\Service\Tactician\TacticianCommandBus
+    arguments:
+      - '@tactician.commandbus.command'
+
+  DeliberryAPI\Core\CommandBus\Application\Service\QueryBus:
+    class: DeliberryAPI\Core\CommandBus\Infrastructure\Application\Service\Tactician\TacticianQueryBus
+    arguments:
+      - '@tactician.commandbus.query'

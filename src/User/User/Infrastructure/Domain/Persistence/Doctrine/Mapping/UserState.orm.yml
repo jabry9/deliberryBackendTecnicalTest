@@ -1,0 +1,14 @@
+DeliberryAPI\User\User\Domain\Model\UserState:
+  type: entity
+  table: user
+  fields:
+    userId:
+      type: string
+      length: 36
+      id: true
+    username:
+      type: string
+      nullable: false
+    roles:
+      type: json_array
+      nullable: false

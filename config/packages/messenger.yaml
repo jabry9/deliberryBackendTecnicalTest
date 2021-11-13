@@ -1,0 +1,23 @@
+framework:
+  messenger:
+    serializer:
+      default_serializer: DeliberryAPI\Core\Common\Domain\Service\Serializer
+    # Uncomment this (and the failed transport below) to send failed messages to this transport for later handling.
+    # failure_transport: failed
+
+    transports:
+      all:
+        dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+        options:
+          exchange:
+            name: deliberry_api
+            type: topic
+          queues:
+            product:
+              binding_keys: [ 'deliberryAPI.event.#.product.#' ]
+        retry_strategy:
+          max_retries: 0
+
+    routing:
+    # Route your messages to the transports
+    # 'App\Message\YourMessage': async

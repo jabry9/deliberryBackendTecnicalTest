@@ -1,0 +1,5 @@
+services:
+  DeliberryAPI\Core\Message\Domain\Repository\MessageEventStore:
+    class: DeliberryAPI\Core\Message\Infrastructure\Domain\Persistence\Doctrine\DoctrineMessageEventStore
+    arguments:
+      - '@doctrine.orm.default_entity_manager'

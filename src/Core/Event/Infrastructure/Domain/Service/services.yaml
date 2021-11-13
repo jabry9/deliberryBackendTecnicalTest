@@ -1,0 +1,6 @@
+services:
+  DeliberryAPI\Core\Common\Domain\Service\DateTimeService:
+    class: DeliberryAPI\Core\Common\Infrastructure\Domain\Service\Php\PhpDateTimeService
+
+  DeliberryAPI\Core\Event\Infrastructure\Domain\Service\Projector\ProjectorMapper:
+    class: DeliberryAPI\Core\Event\Infrastructure\Domain\Service\Projector\ProjectorMapper

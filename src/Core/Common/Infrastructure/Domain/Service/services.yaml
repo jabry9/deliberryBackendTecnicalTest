@@ -1,0 +1,11 @@
+services:
+  DeliberryAPI\Core\Common\Domain\Service\DateTimeService:
+    class: DeliberryAPI\Core\Common\Infrastructure\Domain\Service\Php\PhpDateTimeService
+
+  DeliberryAPI\Core\Common\Domain\Service\Serializer:
+    class: DeliberryAPI\Core\Common\Domain\Service\Serializer
+
+  DeliberryAPI\Core\Common\Infrastructure\Domain\Service\Exception\ExceptionListener:
+    class: DeliberryAPI\Core\Common\Infrastructure\Domain\Service\Exception\ExceptionListener
+    tags:
+      - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }

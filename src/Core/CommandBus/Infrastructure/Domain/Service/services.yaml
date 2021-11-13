@@ -1,0 +1,19 @@
+services:
+  DeliberryAPI\Core\Common\Domain\Service\DateTimeService:
+    class: DeliberryAPI\Core\Common\Infrastructure\Domain\Service\Php\PhpDateTimeService
+
+  DeliberryAPI\Core\CommandBus\Infrastructure\Domain\Service\Middleware\DomainEventProjectMiddleware:
+    class: DeliberryAPI\Core\CommandBus\Infrastructure\Domain\Service\Middleware\DomainEventProjectMiddleware
+    autowire: true
+
+  DeliberryAPI\Core\CommandBus\Infrastructure\Domain\Service\Middleware\DomainRollbackOnlyTransactionMiddleware:
+    class: DeliberryAPI\Core\CommandBus\Infrastructure\Domain\Service\Middleware\DomainRollbackOnlyTransactionMiddleware
+    arguments:
+      - '@doctrine.orm.default_entity_manager'
+
+  DeliberryAPI\Core\CommandBus\Infrastructure\Domain\Service\Middleware\DomainEventPublisherMiddleware:
+    class: DeliberryAPI\Core\CommandBus\Infrastructure\Domain\Service\Middleware\DomainEventPublisherMiddleware
+    arguments:
+      - '@DeliberryAPI\Core\Session\Application\Service\SessionMemento'
+      - '@messenger.transport.all'
+      - '@DeliberryAPI\Core\Message\Domain\Repository\MessageEventStore'

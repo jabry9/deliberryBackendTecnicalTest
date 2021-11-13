@@ -1,0 +1,10 @@
+services:
+  DeliberryAPI\Core\Session\Application\Service\SessionMemento:
+    class: DeliberryAPI\Core\Session\Application\Service\SessionMemento
+
+  DeliberryAPI\Core\Session\Application\Service\InitializerTraceOnKernelRequest:
+    class: DeliberryAPI\Core\Session\Application\Service\InitializerTraceOnKernelRequest
+    tags:
+      - { name: kernel.event_listener, event: kernel.request }
+    arguments:
+      [ '@DeliberryAPI\Core\Session\Application\Service\SessionMemento' ]

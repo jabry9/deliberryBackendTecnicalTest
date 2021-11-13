@@ -21,6 +21,7 @@ services:
       - .:/var/www/html/
     links:
       - database:deliberry_api_database
+      - rabbitmq:deliberry_rabbitmq
 
   database:
     container_name: deliberry_api_database
@@ -33,6 +34,18 @@ services:
       - 3302:3306
     volumes:
       - /var/lib/mysql-docker-deliberry:/var/lib/mysql
+
+  rabbitmq:
+    container_name: deliberry_rabbitmq
+    build:
+      context: .
+      dockerfile: ./docker/rabbitmq/Dockerfile
+    environment:
+      RABBITMQ_DEFAULT_USER: deliberryAdmin
+      RABBITMQ_DEFAULT_PASS: 34sanNgErQ3hXpZ
+    ports:
+      - 5670:5672
+      - 15670:15672
 
 networks:
   default:

@@ -1,0 +1,15 @@
+tactician:
+    default_bus: command
+    commandbus:
+        command:
+            middleware:
+                - tactician.middleware.locking
+                - DeliberryAPI\Core\CommandBus\Infrastructure\Domain\Service\Middleware\DomainRollbackOnlyTransactionMiddleware
+                - DeliberryAPI\Core\CommandBus\Infrastructure\Domain\Service\Middleware\DomainEventPublisherMiddleware
+                - DeliberryAPI\Core\CommandBus\Infrastructure\Domain\Service\Middleware\DomainEventProjectMiddleware
+                - tactician.commandbus.command.middleware.command_handler
+            method_inflector: tactician.handler.method_name_inflector.invoke
+        query:
+            middleware:
+                - tactician.commandbus.query.middleware.command_handler
+            method_inflector: tactician.handler.method_name_inflector.invoke

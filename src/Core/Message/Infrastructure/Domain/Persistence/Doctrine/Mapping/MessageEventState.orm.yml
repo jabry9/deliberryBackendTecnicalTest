@@ -1,0 +1,31 @@
+DeliberryAPI\Core\Message\Domain\Model\MessageEventState:
+  type: entity
+  table: message_event
+  fields:
+    messageId:
+      type: string
+      length: 36
+      nullable: false
+      id: true
+    correlationId:
+      type: string
+      length: 36
+      nullable: false
+    causationId:
+      type: string
+      length: 36
+      nullable: false
+    occurredOn:
+      type: datetime
+      nullable: false
+    userId:
+      type: string
+      length: 36
+      nullable: false
+    eventName:
+      type: string
+      length: 150
+      nullable: false
+    body:
+      type: json_array
+      nullable: false

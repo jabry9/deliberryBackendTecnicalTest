@@ -1,0 +1,9 @@
+services:
+  DeliberryAPI\Core\Security\Application\Service\TokenAuthenticator:
+    class: DeliberryAPI\Core\Security\Application\Service\TokenAuthenticator
+    arguments:
+      - '@DeliberryAPI\Core\Session\Application\Service\SessionMemento'
+
+  DeliberryAPI\Core\Security\Application\Service\APIUserProvider:
+    class: DeliberryAPI\Core\Security\Application\Service\APIUserProvider
+    autowire: true

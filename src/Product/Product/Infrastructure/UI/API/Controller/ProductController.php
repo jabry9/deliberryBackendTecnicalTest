@@ -4,10 +4,12 @@ namespace DeliberryAPI\Product\Product\Infrastructure\UI\API\Controller;
 
 use DeliberryAPI\Core\CommandBus\Application\Service\CommandBus;
 use DeliberryAPI\Core\CommandBus\Application\Service\QueryBus;
+use DeliberryAPI\Core\Common\Domain\Tools\ArrayTools;
 use DeliberryAPI\Core\Common\Infrastructure\Domain\Service\HttpFoundation\RequestHelperService;
 use DeliberryAPI\Core\Common\Infrastructure\Domain\Service\HttpFoundation\ResponseHelperService;
 use DeliberryAPI\Core\Session\Application\Service\SessionMemento;
 use DeliberryAPI\Product\Product\Application\Command\CreateProductCommand;
+use DeliberryAPI\Product\Product\Application\Query\ListProductQuery;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -55,6 +57,28 @@ final class ProductController
             Response::HTTP_CREATED,
             ...
             $response->domainEvents()
+        );
+    }
+
+    public function listProducts(Request $request): JsonResponse
+    {
+        $categoriesIds = $request->query->get(
+            'categoriesIds',
+            []
+        );
+
+        return new JsonResponse(
+            ArrayTools::arrayOfObjectsToArray(
+                $this->queryBus->execute(
+                    (new ListProductQuery())
+                        ->withCategoriesIds(
+                            false === is_array(
+                                $categoriesIds
+                            ) && null !== $categoriesIds ? [$categoriesIds] : $categoriesIds
+                        )
+                        ->withName($request->query->get('name'))
+                )
+            )
         );
     }
 }

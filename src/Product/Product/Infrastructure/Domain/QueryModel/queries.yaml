@@ -1,0 +1,5 @@
+services:
+  DeliberryAPI\Product\Product\Domain\QueryModel\ProductQuery:
+    class: DeliberryAPI\Product\Product\Infrastructure\Domain\QueryModel\Doctrine\DoctrineProductQuery
+    arguments:
+      - '@doctrine.dbal.default_connection'

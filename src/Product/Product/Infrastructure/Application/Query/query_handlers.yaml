@@ -1,0 +1,8 @@
+services:
+  DeliberryAPI\Product\Product\Application\Query\ListProductQueryHandler:
+    class: DeliberryAPI\Product\Product\Application\Query\ListProductQueryHandler
+    public: true
+    arguments:
+      - '@DeliberryAPI\Product\Product\Domain\QueryModel\ProductQuery'
+    tags:
+      - { name: tactician.handler, command: DeliberryAPI\Product\Product\Application\Query\ListProductQuery, typehints: true, bus: query }

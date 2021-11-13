@@ -1,0 +1,11 @@
+DeliberryAPI\Product\Category\Domain\Model\CategoryState:
+  type: entity
+  table: category
+  fields:
+    categoryId:
+      type: string
+      length: 36
+      id: true
+    name:
+      type: string
+      nullable: false

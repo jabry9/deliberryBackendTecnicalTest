@@ -1,5 +1,5 @@
 services:
-    DeliberryAPI\User\User\Domain\Repository\UserRepository:
-        class: DeliberryAPI\User\User\Infrastructure\Domain\Persistence\Doctrine\DoctrineUserRepository
-        arguments:
-          - '@doctrine.orm.default_entity_manager'
+  DeliberryAPI\User\User\Domain\Repository\UserRepository:
+    class: DeliberryAPI\User\User\Infrastructure\Domain\Persistence\Doctrine\DoctrineUserRepository
+    arguments:
+      - '@doctrine.orm.default_entity_manager'

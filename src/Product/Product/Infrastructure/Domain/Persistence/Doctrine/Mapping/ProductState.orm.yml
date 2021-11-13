@@ -1,0 +1,20 @@
+DeliberryAPI\Product\Product\Domain\Model\ProductState:
+  type: entity
+  table: product
+  fields:
+    productId:
+      type: string
+      length: 36
+      id: true
+    name:
+      type: string
+      nullable: false
+    description:
+      type: string
+      nullable: false
+    categoryId:
+      type: string
+      nullable: true
+    price:
+      type: float
+      nullable: false

@@ -1,0 +1,5 @@
+services:
+  DeliberryAPI\Product\Category\Domain\Repository\CategoryRepository:
+    class: DeliberryAPI\Product\Category\Infrastructure\Domain\Persistence\Doctrine\DoctrineCategoryRepository
+    arguments:
+      - '@doctrine.orm.default_entity_manager'

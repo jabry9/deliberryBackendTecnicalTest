@@ -21,7 +21,8 @@
         "symfony/runtime": "5.3.*",
         "symfony/security-bundle": "5.3.*",
         "symfony/yaml": "5.3.*",
-        "namshi/jose": "^7.2"
+        "namshi/jose": "^7.2",
+        "nelmio/cors-bundle": "*"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.4",

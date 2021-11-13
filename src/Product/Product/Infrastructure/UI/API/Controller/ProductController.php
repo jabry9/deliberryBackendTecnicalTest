@@ -55,8 +55,7 @@ final class ProductController
 
         return ResponseHelperService::fromFailureDomainEvents(
             Response::HTTP_CREATED,
-            ...
-            $response->domainEvents()
+            ...$response->domainEvents()
         );
     }
 

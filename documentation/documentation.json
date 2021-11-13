@@ -1,0 +1,511 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "DeliberryAPI",
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080"
+    }
+  ],
+  "paths": {
+    "/v1/product": {
+      "parameters": [],
+      "get": {
+        "summary": "",
+        "operationId": "get-v1-product",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "description": "",
+                  "minItems": 1,
+                  "uniqueItems": true,
+                  "x-examples": {
+                    "example-1": [
+                      {
+                        "productId": "20fbc9a2-574d-4b25-9805-c00423a11dfe",
+                        "name": "Pan",
+                        "description": "sdfdsf",
+                        "category": {
+                          "categoryId": "20f79aa5-fbb5-4d83-b6c7-cfb1afa8ec37",
+                          "name": "Food"
+                        },
+                        "price": 12.3
+                      },
+                      {
+                        "productId": "a2113c0e-2fe7-40c3-b487-16ac2bd7ccc4",
+                        "name": "cocacola",
+                        "description": "sdfdsf",
+                        "category": {
+                          "categoryId": "ab05d10c-edd7-43ed-a765-5221fa0e7b39",
+                          "name": "Drinks"
+                        },
+                        "price": 12.3
+                      }
+                    ]
+                  },
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "productId": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "name": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "description": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "category": {
+                        "type": "object",
+                        "required": [
+                          "categoryId",
+                          "name"
+                        ],
+                        "properties": {
+                          "categoryId": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "name": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      },
+                      "price": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "productId",
+                      "name",
+                      "description",
+                      "price"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "name"
+          },
+          {
+            "schema": {
+              "type": "array",
+              "items": {}
+            },
+            "in": "query",
+            "name": "categoriesIds"
+          }
+        ]
+      },
+      "post": {
+        "summary": "",
+        "operationId": "post-v1-product",
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "error": "Parameter name is required"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "error": "Parameter name is required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "description": "",
+                  "minItems": 1,
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "reasonText",
+                      "reasonCode",
+                      "reasonContent"
+                    ],
+                    "properties": {
+                      "reasonText": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "reasonCode": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "reasonContent": {
+                        "type": "array",
+                        "items": {
+                          "properties": {}
+                        }
+                      }
+                    }
+                  },
+                  "x-examples": {
+                    "example-1": [
+                      {
+                        "reasonText": "Category does not found.",
+                        "reasonCode": "REASON_CATEGORY_DOES_NOT_FOUND",
+                        "reasonContent": []
+                      },
+                      {
+                        "reasonText": "User has not role admin.",
+                        "reasonCode": "REASON_USER_HAS_NOT_ROLE_ADMIN",
+                        "reasonContent": []
+                      }
+                    ]
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": [
+                      {
+                        "reasonText": "Category does not found.",
+                        "reasonCode": "REASON_CATEGORY_DOES_NOT_FOUND",
+                        "reasonContent": []
+                      },
+                      {
+                        "reasonText": "User has not role admin.",
+                        "reasonCode": "REASON_USER_HAS_NOT_ROLE_ADMIN",
+                        "reasonContent": []
+                      }
+                    ]
+                  },
+                  "example-2": {
+                    "value": [
+                      {
+                        "reasonText": "Category does not found.",
+                        "reasonCode": "REASON_CATEGORY_DOES_NOT_FOUND",
+                        "reasonContent": []
+                      }
+                    ]
+                  },
+                  "example-3": {
+                    "value": [
+                      {
+                        "reasonText": "User has not role admin.",
+                        "reasonCode": "REASON_USER_HAS_NOT_ROLE_ADMIN",
+                        "reasonContent": []
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "",
+                "type": "object",
+                "x-examples": {
+                  "example-1": {
+                    "name": "cocacola",
+                    "description": "sdfdsf",
+                    "categoryId": "ab05d10c-edd7-43ed-a765-5221fa0e7b39",
+                    "price": 12.3
+                  }
+                },
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "description": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "categoryId": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "price": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "name",
+                  "description",
+                  "price"
+                ]
+              },
+              "examples": {
+                "example-1": {
+                  "value": {
+                    "name": "cocacola",
+                    "description": "sdfdsf",
+                    "categoryId": "ab05d10c-edd7-43ed-a765-5221fa0e7b39",
+                    "price": 12.3
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/product/{productId}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "productId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "put": {
+        "summary": "",
+        "operationId": "put-v1-product-productId",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "error": "Parameter name is required"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "error": "Parameter name is required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "description": "",
+                  "minItems": 1,
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "reasonText",
+                      "reasonCode",
+                      "reasonContent"
+                    ],
+                    "properties": {
+                      "reasonText": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "reasonCode": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "reasonContent": {
+                        "type": "array",
+                        "items": {
+                          "properties": {}
+                        }
+                      }
+                    }
+                  },
+                  "x-examples": {
+                    "example-1": [
+                      {
+                        "reasonText": "Category does not found.",
+                        "reasonCode": "REASON_CATEGORY_DOES_NOT_FOUND",
+                        "reasonContent": []
+                      },
+                      {
+                        "reasonText": "User has not role admin.",
+                        "reasonCode": "REASON_USER_HAS_NOT_ROLE_ADMIN",
+                        "reasonContent": []
+                      }
+                    ]
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": [
+                      {
+                        "reasonText": "Category does not found.",
+                        "reasonCode": "REASON_CATEGORY_DOES_NOT_FOUND",
+                        "reasonContent": []
+                      },
+                      {
+                        "reasonText": "User has not role admin.",
+                        "reasonCode": "REASON_USER_HAS_NOT_ROLE_ADMIN",
+                        "reasonContent": []
+                      },
+                      {
+                        "reasonText": "Product does not found.",
+                        "reasonCode": "REASON_PRODUCT_DOES_NOT_FOUND",
+                        "reasonContent": []
+                      }
+                    ]
+                  },
+                  "example-2": {
+                    "value": [
+                      {
+                        "reasonText": "Product does not found.",
+                        "reasonCode": "REASON_PRODUCT_DOES_NOT_FOUND",
+                        "reasonContent": []
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "",
+                "type": "object",
+                "x-examples": {
+                  "example-1": {
+                    "name": "cocacola",
+                    "description": "sdfdsf",
+                    "categoryId": "ab05d10c-edd7-43ed-a765-5221fa0e7b39d",
+                    "price": 12.3
+                  }
+                },
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "description": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "categoryId": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "price": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "name",
+                  "description",
+                  "price"
+                ]
+              },
+              "examples": {
+                "example-1": {
+                  "value": {
+                    "name": "cocacola",
+                    "description": "sdfdsf",
+                    "categoryId": "ab05d10c-edd7-43ed-a765-5221fa0e7b39d",
+                    "price": 12.3
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "JWTAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJSYW1vbl9BZG1pbmlzdHJhZG9yIiwidXNlcklkIjoiZjJmZDNkOTItYzUzNC00ZDdjLTg2OWEtYjZhOGRiY2I5NjNmIiwiaWF0IjoxNTE2MjM5MDIyfQ.oMtoCdtv7fMGQ5n4AXKH0IjpMZSUi1DCQ5O91qMPo0o"
+      }
+    },
+    "schemas": {},
+    "headers": {},
+    "responses": {},
+    "parameters": {}
+  },
+  "security": [
+    {
+      "JWTAuth": []
+    }
+  ]
+}

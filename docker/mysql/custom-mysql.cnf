@@ -1,0 +1,3 @@
+[mysqld]
+max_sp_recursion_depth = 255
+sql_mode = NO_ENGINE_SUBSTITUTION

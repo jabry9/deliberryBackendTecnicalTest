@@ -1,0 +1,42 @@
+version: '3.7'
+services:
+  nginx:
+    container_name: deliberry_api_nginx
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile-nginx.local
+    volumes:
+      - ./web/:/var/www/web/
+    ports:
+      - 8080:80
+    links:
+      - php:deliberry_api_php
+
+  php:
+    container_name: deliberry_api_php
+    build:
+      context: .
+      dockerfile: ./docker/php/Dockerfile-php-fpm.local
+    volumes:
+      - .:/var/www/html/
+    links:
+      - database:deliberry_api_database
+
+  database:
+    container_name: deliberry_api_database
+    build:
+      context: .
+      dockerfile: ./docker/mysql/Dockerfile
+    environment:
+      MYSQL_ROOT_PASSWORD: W3s82khAQCWybhS
+    ports:
+      - 3302:3306
+    volumes:
+      - /var/lib/mysql-docker-deliberry:/var/lib/mysql
+
+networks:
+  default:
+    name: deliberry_default
+    ipam:
+      config:
+        - subnet: 172.19.0.0/16

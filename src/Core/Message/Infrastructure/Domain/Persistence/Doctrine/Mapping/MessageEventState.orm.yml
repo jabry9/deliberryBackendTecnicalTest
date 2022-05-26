@@ -27,5 +27,5 @@ DeliberryAPI\Core\Message\Domain\Model\MessageEventState:
       length: 150
       nullable: false
     body:
-      type: json_array
+      type: json
       nullable: false

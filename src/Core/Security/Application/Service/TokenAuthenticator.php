@@ -3,70 +3,35 @@
 namespace DeliberryAPI\Core\Security\Application\Service;
 
 use DeliberryAPI\Core\Session\Application\Service\SessionMemento;
+use Namshi\JOSE\JWT;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
+use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
+use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
+use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
+use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 
 
-final class TokenAuthenticator extends AbstractGuardAuthenticator
+class TokenAuthenticator extends AbstractAuthenticator
 {
     private const HEADER_AUTHORIZATION = 'Authorization';
     private const HEADER_AUTHORIZATION_TYPE = 'Bearer';
 
-    public function __construct(private SessionMemento $sessionMemento)
+    public function __construct(private readonly SessionMemento $sessionMemento)
     {
     }
 
-    public function start(Request $request, AuthenticationException $authException = null)
+    private function extractToken(Request $request): ?string
     {
-        return new JsonResponse(
-            [
-                'message' => $message = ($authException ? $authException->getMessage() : 'Authentication Required'),
-                'error_code' => strtoupper(hash('adler32', $message, FALSE))
-            ],
-            Response::HTTP_UNAUTHORIZED
-        );
-    }
-
-    public function supports(Request $request)
-    {
-        return true;
-    }
-
-    public function getCredentials(Request $request)
-    {
-        $jsonWebToken = $this->extractToken($request, self::HEADER_AUTHORIZATION, self::HEADER_AUTHORIZATION_TYPE);
-
-        if (empty($jsonWebToken)) {
-            throw new CustomUserMessageAuthenticationException('The token is an invalid');
-        }
-
-        $preAuthToken = JWTTool::generateFromString($jsonWebToken);
-
-        if (is_null($preAuthToken) || empty($preAuthToken->getPayload())) {
-            throw new CustomUserMessageAuthenticationException('The token is an invalid');
-        }
-
-        return $preAuthToken;
-    }
-
-
-    private function extractToken(Request $request, string $name, ?string $prefix): ?string
-    {
-        $token = $request->headers->get($name, null);
+        $prefix = self::HEADER_AUTHORIZATION_TYPE;
+        $token = $request->headers->get(self::HEADER_AUTHORIZATION, null);
 
         if (false === empty($prefix)) {
             $headerParts = explode(' ', $token);
-
-            if (!(2 === count($headerParts) && $headerParts[0] === $prefix)) {
-                $token = null;
-            }
 
             $token = $headerParts[1] ?? null;
         }
@@ -74,17 +39,8 @@ final class TokenAuthenticator extends AbstractGuardAuthenticator
         return $token;
     }
 
-    public function getUser($credentials, UserProviderInterface $userProvider)
-    {
-        return $userProvider->loadUserByUsername($credentials->getPayload()['sub']);
-    }
 
-    public function checkCredentials($credentials, UserInterface $user)
-    {
-        return true;
-    }
-
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): JsonResponse
     {
         return new JsonResponse(
             [
@@ -95,14 +51,39 @@ final class TokenAuthenticator extends AbstractGuardAuthenticator
         );
     }
 
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey)
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
         $this->sessionMemento->withUser($token->getUser());
+        return null;
     }
 
-    public function supportsRememberMe()
+    public function supports(Request $request): ?bool
     {
-        return false;
+        return true;
+    }
+
+    public function authenticate(Request $request): Passport|JWT
+    {
+        $jsonWebToken = $this->extractToken($request);
+
+        if (empty($jsonWebToken)) {
+            throw new CustomUserMessageAuthenticationException('The token is an invalid');
+        }
+
+        $preAuthToken = JWTTool::generateFromString($jsonWebToken);
+
+
+        $validators = [
+            is_null($preAuthToken),
+            empty($preAuthToken->getPayload()),
+            false === array_key_exists('sub', $preAuthToken->getPayload())
+        ];
+
+        if (in_array(true, $validators)) {
+            throw new CustomUserMessageAuthenticationException('The token is an invalid');
+        }
+
+        return new SelfValidatingPassport(new UserBadge($preAuthToken->getPayload()['sub']));
     }
 
 }

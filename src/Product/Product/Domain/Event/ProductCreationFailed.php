@@ -14,8 +14,8 @@ final class ProductCreationFailed implements DomainEventFailure
     private array $reasons;
 
     public function __construct(
-        private CreateProductCommand $command,
-        private DateTimeInterface $occurredOn
+        private readonly CreateProductCommand $command,
+        private readonly DateTimeInterface $occurredOn
     )
     {
         $this->reasons = [];

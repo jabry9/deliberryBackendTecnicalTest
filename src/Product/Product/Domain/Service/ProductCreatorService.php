@@ -32,10 +32,10 @@ final class ProductCreatorService
     ];
 
     public function __construct(
-        private UserRepository $userRepository,
-        private CategoryRepository $categoryRepository,
-        private ProductRepository $productRepository,
-        private DateTimeService $dateTimeService
+        private readonly UserRepository $userRepository,
+        private readonly CategoryRepository $categoryRepository,
+        private readonly ProductRepository $productRepository,
+        private readonly DateTimeService $dateTimeService
     )
     {
     }
@@ -49,10 +49,10 @@ final class ProductCreatorService
             $this->dateTimeService->currentDateTime()
         );
 
-        $user = $this->userRepository->ofId($command->userLoggedId());
+        $user = $this->userRepository->ofId($command->userLoggedId);
 
-        if ($command->categoryId()) {
-            $category = $this->categoryRepository->ofId($command->categoryId());
+        if ($command->categoryId) {
+            $category = $this->categoryRepository->ofId($command->categoryId);
 
             if (is_null($category)) {
                 $failureEvent->appendReason(
@@ -86,10 +86,10 @@ final class ProductCreatorService
         if (0 === count($events)) {
             $events[] = new ProductCreated(
                 $this->productRepository->nextId(),
-                $command->name(),
-                $command->description(),
-                $command->categoryId(),
-                $command->price(),
+                $command->name,
+                $command->description,
+                $command->categoryId,
+                $command->price,
                 $this->dateTimeService->currentDateTime()
             );
         }

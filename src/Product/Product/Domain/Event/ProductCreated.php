@@ -9,38 +9,13 @@ final class ProductCreated implements DomainEvent
 {
 
     public function __construct(
-        private string $productId,
-        private string $name,
-        private string $description,
-        private ?string $categoryId,
-        private float $price,
-        private DateTimeInterface $occurredOn
+        public readonly string $productId,
+        public readonly string $name,
+        public readonly string $description,
+        public readonly ?string $categoryId,
+        public readonly float $price,
+        private readonly DateTimeInterface $occurredOn
     ) {
-    }
-
-    public function productId(): string
-    {
-        return $this->productId;
-    }
-
-    public function name(): string
-    {
-        return $this->name;
-    }
-
-    public function description(): string
-    {
-        return $this->description;
-    }
-
-    public function categoryId(): ?string
-    {
-        return $this->categoryId;
-    }
-
-    public function price(): float
-    {
-        return $this->price;
     }
 
     public function occurredOn(): DateTimeInterface

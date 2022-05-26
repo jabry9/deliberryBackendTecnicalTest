@@ -10,7 +10,7 @@ use Symfony\Component\HttpKernel\Event\RequestEvent;
 
 final class InitializerTraceOnKernelRequest
 {
-    public function __construct(private SessionMemento $sessionMemento)
+    public function __construct(private readonly SessionMemento $sessionMemento)
     {
     }
 

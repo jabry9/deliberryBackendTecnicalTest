@@ -5,7 +5,7 @@ namespace DeliberryAPI\Product\Product\Domain\Model;
 class ProductState
 {
     public function __construct(
-        private string $productId,
+        private readonly string $productId,
         private string $name,
         private string $description,
         private ?string $categoryId,

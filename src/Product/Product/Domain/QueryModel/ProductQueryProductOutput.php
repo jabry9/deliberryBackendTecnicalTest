@@ -5,37 +5,12 @@ namespace DeliberryAPI\Product\Product\Domain\QueryModel;
 final class ProductQueryProductOutput
 {
     public function __construct(
-        private string $productId,
-        private string $name,
-        private string $description,
-        private ?ProductQueryProductCategoryOutput $category,
-        private float $price
+        public readonly string $productId,
+        public readonly string $name,
+        public readonly string $description,
+        public readonly ?ProductQueryProductCategoryOutput $category,
+        public readonly float $price
     ) {
-    }
-
-    public function productId(): string
-    {
-        return $this->productId;
-    }
-
-    public function name(): string
-    {
-        return $this->name;
-    }
-
-    public function description(): string
-    {
-        return $this->description;
-    }
-
-    public function category(): ?ProductQueryProductCategoryOutput
-    {
-        return $this->category;
-    }
-
-    public function price(): float
-    {
-        return $this->price;
     }
 
     /**

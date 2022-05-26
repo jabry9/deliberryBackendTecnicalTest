@@ -20,9 +20,9 @@ final class ProductController
     use ContainerAwareTrait;
 
     public function __construct(
-        private CommandBus $commandBus,
-        private SessionMemento $sessionMemento,
-        private QueryBus $queryBus
+        private readonly CommandBus $commandBus,
+        private readonly SessionMemento $sessionMemento,
+        private readonly QueryBus $queryBus
     ) {
     }
 
@@ -69,13 +69,12 @@ final class ProductController
         return new JsonResponse(
             ArrayTools::arrayOfObjectsToArray(
                 $this->queryBus->execute(
-                    (new ListProductQuery())
-                        ->withCategoriesIds(
-                            false === is_array(
-                                $categoriesIds
-                            ) && null !== $categoriesIds ? [$categoriesIds] : $categoriesIds
-                        )
-                        ->withName($request->query->get('name'))
+                    new ListProductQuery(
+                        name: $request->query->get('name'),
+                        categoriesIds: false === is_array($categoriesIds) && null !== $categoriesIds
+                            ? [$categoriesIds]
+                            : $categoriesIds
+                    )
                 )
             )
         );

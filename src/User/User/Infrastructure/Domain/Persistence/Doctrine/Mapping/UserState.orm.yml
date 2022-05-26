@@ -10,5 +10,5 @@ DeliberryAPI\User\User\Domain\Model\UserState:
       type: string
       nullable: false
     roles:
-      type: json_array
+      type: json
       nullable: false

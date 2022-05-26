@@ -4,7 +4,7 @@ namespace DeliberryAPI\Product\Category\Domain\Model;
 
 class CategoryState
 {
-    public function __construct(private string $categoryId, private string $name)
+    public function __construct(private readonly string $categoryId, private string $name)
     {
     }
 

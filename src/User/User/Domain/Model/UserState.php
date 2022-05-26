@@ -11,7 +11,7 @@ class UserState implements UserLoggedInterface
     public const ROLE_ADMIN = 'admin';
     public const ROLE_USER = 'user';
 
-    public function __construct(private string $userId, private string $username, private array $roles)
+    public function __construct(private readonly string $userId, private string $username, private array $roles)
     {
     }
 

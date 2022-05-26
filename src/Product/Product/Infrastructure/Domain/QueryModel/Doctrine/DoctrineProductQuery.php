@@ -10,7 +10,7 @@ use Doctrine\DBAL\Connection;
 
 final class DoctrineProductQuery implements ProductQuery
 {
-    public function __construct(private Connection $connection)
+    public function __construct(private readonly Connection $connection)
     {
     }
 
@@ -46,26 +46,26 @@ final class DoctrineProductQuery implements ProductQuery
             )
         ;
 
-        if (false === empty($input->name())) {
+        if (false === empty($input->name)) {
             $queryBuilder->where('product.name LIKE :name')
                 ->setParameter(
                     'name',
-                    '%' . $input->name() . '%'
+                    '%' . $input->name . '%'
                 );
         }
 
-        if (false === empty($input->categoriesIds())) {
+        if (false === empty($input->categoriesIds)) {
             $queryBuilder->where('category.category_id IN (:categoriesIds)')
                 ->setParameter(
                     'categoriesIds',
-                    $input->categoriesIds(),
+                    $input->categoriesIds,
                     Connection::PARAM_STR_ARRAY
                 );
         }
 
 
         return ProductQueryProductOutput::fromCollection(
-            $queryBuilder->execute()->fetchAllAssociative()
+            $queryBuilder->executeQuery()->fetchAllAssociative()
         );
     }
 }

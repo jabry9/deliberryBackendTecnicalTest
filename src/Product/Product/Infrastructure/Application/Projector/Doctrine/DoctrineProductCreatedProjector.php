@@ -11,7 +11,7 @@ use DeliberryAPI\Product\Product\Domain\Repository\ProductRepository;
 final class DoctrineProductCreatedProjector implements Projector
 {
 
-    public function __construct(private ProductRepository $productRepository)
+    public function __construct(private readonly ProductRepository $productRepository)
     {
     }
 
@@ -19,11 +19,11 @@ final class DoctrineProductCreatedProjector implements Projector
     public function project(DomainEvent|ProductCreated $domainEvent): void
     {
         $productState = new ProductState(
-            $domainEvent->productId(),
-            $domainEvent->name(),
-            $domainEvent->description(),
-            $domainEvent->categoryId(),
-            $domainEvent->price()
+            $domainEvent->productId,
+            $domainEvent->name,
+            $domainEvent->description,
+            $domainEvent->categoryId,
+            $domainEvent->price
         );
 
         $this->productRepository->add($productState);

@@ -6,15 +6,13 @@ namespace DeliberryAPI\Core\Trace\Domain\Model;
 
 final class Trace
 {
-    private string $traceId;
-    private string $correlationId;
-    private string $causationId;
 
-    public function __construct(string $traceId, string $correlationId, string $causationId)
+    public function __construct(
+        private string $traceId,
+        private readonly string $correlationId,
+        private string $causationId
+    )
     {
-        $this->traceId = $traceId;
-        $this->correlationId = $correlationId;
-        $this->causationId = $causationId;
     }
 
     public function traceId(): string

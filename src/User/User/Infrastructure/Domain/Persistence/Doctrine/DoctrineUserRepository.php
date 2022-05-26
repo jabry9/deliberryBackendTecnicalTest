@@ -10,13 +10,9 @@ use DeliberryAPI\User\User\Domain\Repository\UserRepository;
 
 final class DoctrineUserRepository implements UserRepository
 {
-    private EntityManager $entityManager;
 
-    public function __construct(
-        EntityManager $entityManager
-    )
+    public function __construct(private readonly EntityManager $entityManager)
     {
-        $this->entityManager = $entityManager;
     }
 
     public function ofId(string $userId): ?UserState

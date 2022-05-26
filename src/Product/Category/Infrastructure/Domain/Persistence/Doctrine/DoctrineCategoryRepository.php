@@ -9,7 +9,7 @@ use Doctrine\ORM\EntityManager;
 final class DoctrineCategoryRepository implements CategoryRepository
 {
     public function __construct(
-        private EntityManager $entityManager
+        private readonly EntityManager $entityManager
     )
     {
     }

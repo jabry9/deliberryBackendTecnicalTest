@@ -1,22 +1,11 @@
-FROM php:8.0.0-fpm
+FROM php:8.1-fpm
 
-COPY ./docker/php/mysql.gpg.key /home/mysql.gpg.key
-
-RUN apt-get update && \
-    apt-get install -y gnupg && \
-    apt-key add /home/mysql.gpg.key
-
-RUN echo 'deb http://repo.mysql.com/apt/debian/ buster mysql-apt-config' > /etc/apt/sources.list.d/mysql.list && \
-    echo 'deb http://repo.mysql.com/apt/debian/ buster mysql-8.0' >> /etc/apt/sources.list.d/mysql.list && \
-    echo 'deb http://repo.mysql.com/apt/debian/ buster mysql-tools' >> /etc/apt/sources.list.d/mysql.list && \
-    echo 'deb-src http://repo.mysql.com/apt/debian/ buster mysql-8.0' >> /etc/apt/sources.list.d/mysql.list
-
-RUN apt-get update && \
-    apt-get install -y wget zlib1g-dev git libxml2-dev mysql-community-client mysql-client \
+RUN apt update && \
+    apt install -y wget zlib1g-dev git libxml2-dev default-mysql-client gnupg \
     libwebp-dev libjpeg62-turbo-dev libpng-dev libxpm-dev libfreetype6-dev libzip-dev libssh-dev \
     autoconf pkg-config librabbitmq-dev libssl-dev
 
-RUN pecl install amqp-1.11.0beta
+RUN pecl install amqp
 
 RUN docker-php-ext-configure gd \
     --with-jpeg \

@@ -11,8 +11,6 @@ doctrine:
                 password: '%env(resolve:DATABASE_PASSWORD)%'
                 charset: UTF8
                 server_version: '%env(resolve:DATABASE_SERVER_VERSION)%'
-                mapping_types:
-                    json: json_array
     orm:
         default_entity_manager: default
         auto_generate_proxy_classes: '%kernel.debug%'
